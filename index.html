@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="Code Editor HTML, CSS, JavaScript">
+    <meta name="keywords" content="CodePen IO">
+    <meta name="keywords" content="code execution, HTML, CSS, JavaScript">
+    <title>Code Editor - HTML, CSS, JS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/darcula.min.css"
+        integrity="sha512-kqCOYFDdyQF4JM8RddA6rMBi9oaLdR0aEACdB95Xl1EgaBhaXMIe8T4uxmPitfq4qRmHqo+nBU2d1l+M4zUx1g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="header">
+        <nav>
+            <ul>
+                <a class="nav-link" href="#" onclick="toggleCodeSection('htmlSection')">HTML</a>
+                <a class="nav-link" href="#" onclick="toggleCodeSection('cssSection')">CSS</a>
+                <a class="nav-link" href="#" onclick="toggleCodeSection('jsSection')">JS</a>
+            </ul>
+        </nav>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="code-section" id="htmlSection">
+                    <div class="head-section">
+                        <img src="htmllogo.svg" alt="" srcset="">
+                        <h5>HTML</h5>
+
+
+                    </div>
+                    <textarea id="htmlCode" class="form-control" onkeyup="updateOutput()"></textarea>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="code-section" id="cssSection">
+                    <div class="head-section">
+                        <img src="css.svg" alt="" srcset="">
+                        <h5>CSS</h5>
+
+
+                    </div>
+                    <textarea id="cssCode" class="form-control" onkeyup="updateOutput()"></textarea>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="code-section" id="jsSection">
+                    <div class="head-section">
+                        <img src="javascript.svg" alt="" srcset="">
+                        <h5>JAVASCRIPT</h5>
+
+                    </div>
+                    <textarea id="jsCode" class="form-control" onkeyup="updateOutput()"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="output-section">
+                <div id="output-wrapper">
+                    <div id="resize-handle"></div>
+                    <div id="output-content">
+                        <div class="opheader">
+                            <h3 style="color:black; margin-top: 1%;">Output</h3>
+                            <button class="button">
+                                <span class="text" style=" text-align: left;
+                                width: 90%; margin-right: 5%;">Made by <span>Umangvadukar</span></span>
+                                <a href="https://github.com/UmangVadukar">
+                                    <i class="fa-brands fa-github" style="color: black; height: 34px; font-size: 27px;"></i>
+                                </a>
+                              </button>
+                        </div>
+                        
+                        <iframe id="outputFrame"></iframe>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/xml/xml.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/css/css.min.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/htmlmixed/htmlmixed.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/edit/closetag.min.js"></script>
+
+        <script src="script.js"></script>
+
+</body>
+
+</html>

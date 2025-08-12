@@ -4,98 +4,215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="keywords" content="Code Editor HTML, CSS, JavaScript">
-    <meta name="keywords" content="CodePen IO">
-    <meta name="keywords" content="code execution, HTML, CSS, JavaScript">
     <title>Code Editor - HTML, CSS, JS</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/darcula.min.css"
-        integrity="sha512-kqCOYFDdyQF4JM8RddA6rMBi9oaLdR0aEACdB95Xl1EgaBhaXMIe8T4uxmPitfq4qRmHqo+nBU2d1l+M4zUx1g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/darcula.min.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #1e1e1e;
+            color: white;
+        }
+
+        .editor-card {
+            height: 350px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-header {
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .card-header img {
+            height: 22px;
+            margin-right: 8px;
+        }
+
+        .CodeMirror {
+            height: 100%;
+            font-size: 14px;
+            background-color: #2b2b2b !important;
+            color: white;
+        }
+
+        .editor-card .flex-grow-1 {
+            height: 100%;
+            background-color: #2b2b2b;
+        }
+
+        #outputFrame {
+            background-color: white;
+        }
+
+        /* Mobile accordion effect */
+        @media (max-width: 768px) {
+            #htmlSection,
+            #cssSection,
+            #jsSection {
+                display: none;
+                opacity: 0;
+                transform: translateY(10px);
+                transition: all 0.3s ease;
+            }
+
+            .active-section {
+                display: block !important;
+                opacity: 1 !important;
+                transform: translateY(0) !important;
+            }
+        }
+
+        /* Hide navbar on desktop */
+        @media (min-width: 769px) {
+            nav.navbar {
+                display: none;
+            }
+        }
+
+        /* Show navbar only on mobile */
+        @media (max-width: 768px) {
+            nav.navbar {
+                display: flex;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <div class="header">
-        <nav>
-            <ul>
-                <a class="nav-link" href="#" onclick="toggleCodeSection('htmlSection')">HTML</a>
-                <a class="nav-link" href="#" onclick="toggleCodeSection('cssSection')">CSS</a>
-                <a class="nav-link" href="#" onclick="toggleCodeSection('jsSection')">JS</a>
-            </ul>
-        </nav>
+
+    <!-- Navbar (Mobile only) -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+        <a class="navbar-brand" href="#">Code Editor</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#editorNav"
+            aria-controls="editorNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="editorNav">
+            <div class="ml-auto btn-group w-100 w-lg-auto">
+                <button class="btn btn-outline-light btn-sm flex-fill" onclick="toggleCodeSection('htmlSection')">HTML</button>
+                <button class="btn btn-outline-light btn-sm flex-fill" onclick="toggleCodeSection('cssSection')">CSS</button>
+                <button class="btn btn-outline-light btn-sm flex-fill" onclick="toggleCodeSection('jsSection')">JS</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-3">
+        <div class="row">
+
+            <!-- HTML -->
+            <div class="col-md-4 mb-3" id="htmlSection">
+                <div class="card shadow-sm border-0 editor-card">
+                    <div class="card-header bg-danger text-white">
+                        <img src="htmllogo.svg" alt="">
+                        HTML
+                    </div>
+                    <div class="flex-grow-1">
+                        <textarea id="htmlCode" class="form-control border-0 rounded-0 h-100" onkeyup="updateOutput()"
+                            placeholder="Write HTML here..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CSS -->
+            <div class="col-md-4 mb-3" id="cssSection">
+                <div class="card shadow-sm border-0 editor-card">
+                    <div class="card-header bg-primary text-white">
+                        <img src="css.svg" alt="">
+                        CSS
+                    </div>
+                    <div class="flex-grow-1">
+                        <textarea id="cssCode" class="form-control border-0 rounded-0 h-100" onkeyup="updateOutput()"
+                            placeholder="Write CSS here..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JS -->
+            <div class="col-md-4 mb-3" id="jsSection">
+                <div class="card shadow-sm border-0 editor-card">
+                    <div class="card-header bg-warning text-dark">
+                        <img src="javascript.svg" alt="">
+                        JavaScript
+                    </div>
+                    <div class="flex-grow-1">
+                        <textarea id="jsCode" class="form-control border-0 rounded-0 h-100" onkeyup="updateOutput()"
+                            placeholder="Write JavaScript here..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Output -->
+        <div class="row mt-3">
+            <div class="col-12">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 text-dark">Output</h5>
+                        <a href="https://github.com/UmangVadukar" target="_blank" class="btn btn-outline-dark btn-sm">
+                            <i class="fab fa-github mr-1"></i> Made by <strong>Umangvadukar</strong>
+                        </a>
+                    </div>
+                    <div style="height: 350px;">
+                        <iframe id="outputFrame" class="w-100 h-100 border-0"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="code-section" id="htmlSection">
-                    <div class="head-section">
-                        <img src="htmllogo.svg" alt="" srcset="">
-                        <h5>HTML</h5>
 
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 
-                    </div>
-                    <textarea id="htmlCode" class="form-control" onkeyup="updateOutput()"></textarea>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="code-section" id="cssSection">
-                    <div class="head-section">
-                        <img src="css.svg" alt="" srcset="">
-                        <h5>CSS</h5>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/xml/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/css/css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/htmlmixed/htmlmixed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/edit/closetag.min.js"></script>
 
+    <script src="script.js"></script>
 
-                    </div>
-                    <textarea id="cssCode" class="form-control" onkeyup="updateOutput()"></textarea>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="code-section" id="jsSection">
-                    <div class="head-section">
-                        <img src="javascript.svg" alt="" srcset="">
-                        <h5>JAVASCRIPT</h5>
+    <script>
+        function toggleCodeSection(sectionId) {
+            const sections = ['htmlSection', 'cssSection', 'jsSection'];
+            const isMobile = window.innerWidth <= 768;
 
-                    </div>
-                    <textarea id="jsCode" class="form-control" onkeyup="updateOutput()"></textarea>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div id="output-section">
-                <div id="output-wrapper">
-                    <div id="resize-handle"></div>
-                    <div id="output-content">
-                        <div class="opheader">
-                            <h3 style="color:black; margin-top: 1%;">Output</h3>
-                            <button class="button">
-                                <span class="text" style=" text-align: left;
-                                width: 90%; margin-right: 5%;">Made by <span>Umangvadukar</span></span>
-                                <a href="https://github.com/UmangVadukar">
-                                    <i class="fa-brands fa-github" style="color: black; height: 34px; font-size: 27px;"></i>
-                                </a>
-                              </button>
-                        </div>
-                        
-                        <iframe id="outputFrame"></iframe>
-                    </div>
-                </div>
-            </div>
+            sections.forEach(id => {
+                const el = document.getElementById(id);
+                if (isMobile) {
+                    if (id === sectionId) {
+                        el.classList.add('active-section');
+                    } else {
+                        el.classList.remove('active-section');
+                    }
+                } else {
+                    el.classList.add('active-section'); // Always show on desktop
+                }
+            });
+        }
 
-        </div>
-
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/xml/xml.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/css/css.min.js"></script>
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/htmlmixed/htmlmixed.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/edit/closetag.min.js"></script>
-
-        <script src="script.js"></script>
-
+        // Ensure correct view on load/resize
+        window.addEventListener('resize', () => {
+            toggleCodeSection('htmlSection');
+        });
+        window.addEventListener('load', () => {
+            toggleCodeSection('htmlSection');
+        });
+    </script>
 </body>
-
 </html>
